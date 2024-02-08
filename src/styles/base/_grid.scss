@@ -1,0 +1,69 @@
+$width: 96%;
+$gutter: 4%;
+$breakpoint-small: 33.75rem;
+$breakpoint-medium: 45rem;
+$breakpoint-large: 60rem;
+
+.container {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media only screen and (min-width: $breakpoint-small) {
+    width: 80%;
+  }
+
+  @media only screen and (min-width: $breakpoint-large) {
+    width: 75%;
+    max-width: 90rem;
+  }
+}
+
+.container-fluid {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  @media only screen and (min-width: $breakpoint-small) {
+    width: 80%;
+  }
+
+  @media only screen and (min-width: $breakpoint-large) {
+    width: 90%;
+    max-width: 120rem;
+  }
+}
+
+@function calculate-width($columns) {
+  @return percentage($columns / 12);
+}
+@mixin generate-column($prefix, $columns, $gap: 0) {
+  $width: calculate-width($columns);
+  $adjusted-width: calc($width - $gap);
+
+  .#{$prefix}-#{$columns} {
+    flex: 0 0 auto;
+    width: $adjusted-width;
+  }
+
+  @if str-index($prefix, "col-") == 1 {
+    $media-query-prefix: "";
+  } @else {
+    $media-query-prefix: "-";
+
+    @if $prefix == "col-xl" {
+      $media-query-width: 1200px;
+    } @else if $prefix == "col-lg" {
+      $media-query-width: 992px;
+    } @else if $prefix == "col-md" {
+      $media-query-width: 768px;
+    } @else if $prefix == "col-sm" {
+      $media-query-width: 576px;
+    }
+
+    @media (min-width: $media-query-width) {
+      .#{$prefix} {
+        @content;
+      }
+    }
+  }
+}

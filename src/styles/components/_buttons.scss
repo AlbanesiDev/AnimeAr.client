@@ -1,0 +1,34 @@
+@mixin btn-style() {
+  @include font($font-size-sm $font-weight-600);
+  border-radius: $border-radius-md;
+  padding: $padding-md $padding-lg;
+  text-align: center;
+  vertical-align: middle;
+  height: 35px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  @include btn-style;
+  background-color: $color-btn-primary;
+  color: $color-font-primary;
+  &:hover {
+    background-color: $color-btn-primary-hover;
+  }
+  &:active {
+    background-color: $color-btn-primary-active;
+  }
+}
+
+.btn-secondary {
+  @include btn-style;
+  background-color: $color-btn-secondary;
+  color: $color-font-secondary;
+  &:hover {
+    background-color: $color-btn-secondary-hover;
+  }
+  &:active {
+    background-color: $color-btn-secondary-active;
+  }
+}

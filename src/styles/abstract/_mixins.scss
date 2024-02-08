@@ -1,0 +1,49 @@
+@import "../variables/colors";
+@import "../variables/fonts";
+@import "../variables/spacing";
+
+@mixin absolute($top: auto, $left: auto, $right: auto, $bottom: auto) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  right: $right;
+  bottom: $bottom;
+}
+
+@mixin flex($direction: row, $wrap: nowrap, $justify: center, $align: center, $gap: 0) {
+  display: flex;
+  flex-wrap: $wrap;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  gap: $gap;
+}
+
+@mixin font($size-weight) {
+  $size: nth($size-weight, 1);
+  $weight: nth($size-weight, 2);
+
+  font-family: "", sans-serif;
+  font-size: $size;
+  font-weight: $weight;
+  font-style: normal;
+  color: $color-font-primary;
+}
+
+$breakpoints: (
+  small: 576px,
+  medium: 768px,
+  large: 1050px,
+  x-large: 1280px,
+  xl-large: 1400px,
+);
+
+@mixin breakpoint($point) {
+  @if map-has-key($breakpoints, $point) {
+    @media (max-width: map-get($breakpoints, $point)) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint #{$point} not found in $breakpoints map.";
+  }
+}
