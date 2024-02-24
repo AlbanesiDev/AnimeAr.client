@@ -1,70 +1,111 @@
 @import "../../../../styles/abstract/mixins";
 
-.card {
-  .img__container {
-    position: relative;
-    cursor: pointer;
-    min-height: 370px;
-    z-index: 0;
-    .img__shadow {
-      z-index: -1;
-    }
-    img, .img__overlay {
-      @include absolute(0, 0);
+.card__wrapper {
+  position: relative;
+  aspect-ratio: 26 / 37;
+  border-radius: $border-radius-sm;
+  .card__shadow {
+    @include absolute(0, 0);
+    padding: 0.15rem;
+    img {
       width: 100%;
-      max-width: 260px;
-      height: 100%;
-      border-radius: $border-radius-sm;
-      aspect-ratio: 26 / 37;
-    }
-    .img__overlay {
-      background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.79) 0%,
-        rgba(0, 0, 0, 0.65) 12%,
-        rgba(0, 0, 0, 0.40) 26%,
-        rgba(0, 0, 0, 0) 39%,
-        rgba(0, 0, 0, 0) 100%
-      );
+      border-radius: $border-radius-md;
     }
   }
 
-  .text__container {
-    @include absolute(auto, 0, auto, 0);
-    padding: $padding-md $padding-sm;
-    h3 {
-      @include font($font-size-base $font-weight-400);
-      text-transform: capitalize;
-      text-wrap: pretty;
+  .card {
+    @include absolute(0, 0);
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    overflow: hidden;
+    .card__img {
+      position: relative;
+      width: 260px;
+      height: 370px;
+      .play__icon {
+        @include absolute(50%, 50%);
+        aspect-ratio: 1 / 1;
+        width: 6rem;
+        height: 6rem;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+      }
+      img {
+        width: 100%;
+        border-radius: $border-radius-sm;
+      }
+      .card__overlay {
+        @include absolute(0, 0);
+        width: 100%;
+        height: 370px;
+        border-radius: $border-radius-sm;
+        background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.9) 5%,
+          rgba(0, 0, 0, 0.25) 20%,
+          rgba(0, 0, 0, 0.1) 25%,
+          rgba(0, 0, 0, 0) 35%,
+          rgba(0, 0, 0, 0) 100%
+        );
+      }
     }
-    span {
-      @include font($font-size-base $font-weight-400);
+    .card__content {
+      @include absolute(auto, 0, auto, 0);
+      padding: $padding-md;
+      width: 100%;
+      h3 {
+        @include font($font-size-base $font-weight-600);
+        text-transform: capitalize;
+        opacity: 1;
+      }
+      p {
+        @include absolute(auto, 0, auto, 0);
+        @include font($font-size-sm $font-weight-400);
+        transform: translateY(100%);
+        text-wrap: balance;
+        padding: $padding-md;
+        opacity: 0;
+      }
     }
   }
-  img,
-  .img__overlay,
-  .text__container h3 {
-    transition: all 0.35s ease;
+
+  .card .card__content h3,
+  .card .card__content p,
+  .play__icon,
+  .card__img .card__overlay,
+  .card__shadow img {
+    transition:
+      all 0.5s ease,
+      opacity 0.5s ease;
   }
 }
 
 .hover__card {
-  .img__container {
-    .img__shadow {
-      filter: blur(2rem) saturate(120%) contrast(120%);
-    }
-    img,
-    .img__overlay {
-      transform: perspective(500px) scale(105%) translateY(-2.5%);
-    }
-    .img__overlay {
-      width: 100%;
-      height: 100%;
+  .card__shadow {
+    img {
+      filter: blur(1.5rem);
     }
   }
-  .text__container {
+  .play__icon {
+    opacity: 1 !important;
+  }
+  .card__img .card__overlay {
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.5) 40%,
+      rgba(0, 0, 0, 0.25) 60%,
+      rgba(0, 0, 0, 0) 100%
+    ) !important;
+  }
+  .card__content {
     h3 {
-      color: #00d9ff !important;
+      transform: translateY(150%) !important;
+      opacity: 0 !important;
+    }
+    p {
+      transform: translateY(0) !important;
+      opacity: 1 !important;
     }
   }
 }
