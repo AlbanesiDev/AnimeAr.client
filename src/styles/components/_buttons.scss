@@ -1,7 +1,7 @@
 @mixin btn-style() {
   @include font($font-size-sm $font-weight-600);
-  border-radius: $border-radius-md;
-  padding: $padding-md $padding-lg;
+  border-radius: $border-radius-sm;
+  padding: $padding-sm $padding-lg;
   text-align: center;
   vertical-align: middle;
   height: 35px;

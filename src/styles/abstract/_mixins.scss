@@ -23,7 +23,7 @@
   $size: nth($size-weight, 1);
   $weight: nth($size-weight, 2);
 
-  font-family: "", sans-serif;
+  font-family: "min-sans", serif;
   font-size: $size;
   font-weight: $weight;
   font-style: normal;
