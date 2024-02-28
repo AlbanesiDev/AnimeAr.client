@@ -1,21 +1,23 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { faCirclePlay } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-card",
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule],
   template: `
     <div class="card__wrapper" [class.hover__card]="hover" (mouseover)="hover = true" (mouseleave)="hover = false">
       <div class="card__shadow">
-        <img [src]="item.cover" loading="lazy" [alt]="item.title" />
+        <img [src]="item.cover" [alt]="item.title" loading="lazy" />
       </div>
-      <div class="card" [routerLink]="goToAnime(item.title)">
+      <div class="card" (click)="goToAnime(item.title, item)">
         <div class="card__img">
-          <img [src]="item.cover" loading="lazy" [alt]="item.title" />
+          <img [src]="item.cover" [alt]="item.title" loading="lazy" />
           <div class="card__overlay"></div>
-          <img class="play__icon" src="/assets/icons/overlay.png" alt="" />
+          <fa-icon class="play__icon" [icon]="faCirclePlay"></fa-icon>
         </div>
         <div class="card__content">
           <h3>{{ item.title }}</h3>
@@ -33,8 +35,11 @@ export class CardComponent implements OnInit {
   @Input() public index!: number;
   @Input() public item: any;
   public hover: boolean = false;
+  public faCirclePlay = faCirclePlay
 
-  constructor() {}
+  constructor(
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {}
 
@@ -42,16 +47,16 @@ export class CardComponent implements OnInit {
     const synopsis = this.item.synopsis;
     if (synopsis.length === 0) {
       return "No hay sinopsis disponible.";
-    } else if (synopsis.length < 200) {
+    } else if (synopsis.length < 150) {
       return synopsis;
     } else {
-      const lastSpaceIndex = synopsis.lastIndexOf(" ", 200);
+      const lastSpaceIndex = synopsis.lastIndexOf(" ", 150);
       const slicedSynopsis = synopsis.slice(0, lastSpaceIndex) + "...";
       return slicedSynopsis;
     }
   }
 
-  public goToAnime(name: string) {
+  public goToAnime(name: string, animeSelect: any) {
     if (name !== null && name !== undefined) {
       const replaceStar = name.replace(/☆/g, " ");
       const clearCharacters = replaceStar
@@ -60,9 +65,7 @@ export class CardComponent implements OnInit {
         .replace(/^\s+|\s+$/g, "");
       const clearAnimeRoute = clearCharacters.replace(/\s+/g, "-");
       const route = "/anime/" + clearAnimeRoute;
-
-      return route;
+      this.router.navigate([route]);
     }
-    throw new Error("Name not found");
   }
 }
