@@ -1,0 +1,30 @@
+@import "../../../../styles/abstract/mixins";
+
+.anime-layout {
+  width: 100%;
+  gap: $gap-xl;
+  display: grid;
+  padding: $padding-desktop $padding-zero;
+}
+
+h3 {
+  @include font($font-size-lg $font-weight-500);
+  text-transform: capitalize;
+}
+
+.anime-layout {
+  .anime-layout__container {
+    display: grid;
+    gap: $gap-xl;
+  }
+}
+
+.card__placeholder {
+  aspect-ratio: 26 / 37;
+  border-radius: $border-radius-sm;
+}
+
+app-card {
+  width: 100%;
+  height: 100%;
+}
