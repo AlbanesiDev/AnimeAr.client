@@ -1,3 +1,5 @@
+import { FormControl, Validators } from "@angular/forms";
+
 export interface FormUiInterface {
   title: string;
   buttonSubmit: string;
@@ -15,7 +17,9 @@ export interface FormDataInterface {
   name: string;
   type: string;
   placeholder: string;
-  control: any;
-  validators: any[];
-  showPassword?: boolean;
+  control: FormControl;
+  controlName: string;
+  autocomplete: string;
+  validators: Validators[];
+  showBtn?: boolean;
 }
