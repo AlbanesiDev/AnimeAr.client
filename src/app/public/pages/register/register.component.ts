@@ -6,6 +6,7 @@ import { AuthService } from "../../../core/services/auth.service";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { AuthFormComponent } from "../../components/auth-form/auth-form.component";
+import { FormDataInterface } from "../../models/form.interface";
 
 @Component({
   selector: "app-register",
@@ -18,6 +19,7 @@ import { AuthFormComponent } from "../../components/auth-form/auth-form.componen
         [formUi]="FormUi"
         [formData]="FormData"
         [errorMessage]="errorMessage"
+        (submitEvent)="onSubmit($event)"
       ></app-auth-form>
     </div>
   `,
@@ -25,14 +27,10 @@ import { AuthFormComponent } from "../../components/auth-form/auth-form.componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
-  public errorMessage: string | null = null;
-
-  public fb = inject(FormBuilder);
-  public http = inject(HttpClient);
   public authService = inject(AuthService);
   public router = inject(Router);
   public cdr = inject(ChangeDetectorRef);
-
+  public errorMessage: string | null = null;
   public FormUi: any[] = [
     {
       title: "Crea una cuenta",
@@ -45,48 +43,45 @@ export class RegisterComponent {
       buttonForgot: false,
     },
   ];
-  public FormData: any[] = [
+  public FormData: FormDataInterface[] = [
     {
+      autocomplete: "off",
       name: "username",
       type: "text",
       placeholder: "Username",
       control: new FormControl(""),
+      controlName: "username",
       validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20)],
     },
     {
+      autocomplete: "off",
       name: "email",
       type: "email",
       placeholder: "Email",
       control: new FormControl(""),
+      controlName: "email",
       validators: [Validators.required, Validators.email],
     },
     {
+      autocomplete: "off",
       name: "password",
       type: "password",
       placeholder: "Password",
       control: new FormControl(""),
+      controlName: "password",
       validators: [Validators.required, Validators.minLength(8), Validators.maxLength(30)],
     },
   ];
 
-  form = this.fb.nonNullable.group({
-    username: ["", Validators.required, Validators.minLength(3), Validators.maxLength(20)],
-    email: ["", Validators.required, Validators.email],
-    password: ["", Validators.required, Validators.minLength(8), Validators.maxLength(30)],
-  });
-
-  public onSubmit(): void {
-    const rawForm = this.form.getRawValue();
-    this.authService
-      .register(rawForm.username, rawForm.email, rawForm.password)
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/')
-        },
-        error: (error) => {
-          this.errorMessage = error;
-          this.cdr.detectChanges();
-        },
+  public onSubmit(formValue: any): void {
+    this.authService.registerWithEmail(formValue.username, formValue.email, formValue.password).subscribe({
+      next: () => {
+        this.router.navigateByUrl("/");
+      },
+      error: (error) => {
+        this.errorMessage = error;
+        this.cdr.detectChanges();
+      },
     });
   }
 }

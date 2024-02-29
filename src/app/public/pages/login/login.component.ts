@@ -5,6 +5,7 @@ import { AuthService } from "../../../core/services/auth.service";
 import { Router } from "@angular/router";
 import { AuthFormComponent } from "../../components/auth-form/auth-form.component";
 import { FormDataInterface, FormUiInterface } from "../../models/form.interface";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-login",
@@ -17,6 +18,7 @@ import { FormDataInterface, FormUiInterface } from "../../models/form.interface"
         [formUi]="FormUi"
         [formData]="FormData"
         [errorMessage]="errorMessage"
+        (submitEvent)="onSubmit($event)"
       ></app-auth-form>
     </div>
   `,
@@ -24,6 +26,10 @@ import { FormDataInterface, FormUiInterface } from "../../models/form.interface"
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
+  public authService = inject(AuthService);
+  public router = inject(Router);
+  public cdr = inject(ChangeDetectorRef);
+  public errorMessage: string | null = null;
   public FormUi: FormUiInterface[] = [
     {
       title: "Inicia sesión",
@@ -38,38 +44,35 @@ export class LoginComponent {
   ];
   public FormData: FormDataInterface[] = [
     {
+      autocomplete: "email",
       name: "email",
       type: "email",
       placeholder: "Email",
       control: new FormControl(""),
+      controlName: "email",
       validators: [Validators.required, Validators.email],
     },
     {
+      autocomplete: "current-password",
       name: "password",
       type: "password",
       placeholder: "Password",
-      showPassword: false,
+      showBtn: false,
       control: new FormControl(""),
+      controlName: "password",
       validators: [Validators.required, Validators.minLength(8), Validators.maxLength(30)],
     },
   ];
-  public errorMessage: string | null = null;
 
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
-
-  // public onSubmit(): void {
-  //   const rawForm = this.form.getRawValue();
-  //   this.authService.login(rawForm.email, rawForm.password).subscribe({
-  //     next: () => {
-  //       this.router.navigateByUrl("/");
-  //     },
-  //     error: (error) => {
-  //       this.errorMessage = error;
-  //       this.cdr.detectChanges();
-  //     },
-  //   });
-  // }
+  public onSubmit(formValue: any): void {
+    this.authService.loginWithEmail(formValue.email, formValue.password).subscribe({
+      next: () => {
+        this.router.navigateByUrl("/");
+      },
+      error: (error) => {
+        this.errorMessage = error;
+        this.cdr.detectChanges();
+      },
+    });
+  }
 }
