@@ -1,0 +1,90 @@
+<div class="form__wrapper">
+  <div class="form__header">
+    <h1>{{ formUi[0].title }}</h1>
+  </div>
+  <form class="form" [formGroup]="form">
+    <div>
+      @for (item of formData; track $index) {
+        <div class="form__input-container" [class.mb-2]="formData[$index].showBtn">
+          <label class="input__label" for="">{{ formData[$index].name }}</label>
+          <input
+            class="input"
+            [type]="
+              formData[$index].type == 'password' ? (showPasswordToggle ? 'text' : 'password') : formData[$index].type
+            "
+            [name]="formData[$index].name"
+            [autofocus]="formData[0].focus"
+            [placeholder]="formData[$index].placeholder"
+            [autocomplete]="formData[$index].autocomplete"
+            [formControlName]="formData[$index].controlName"
+          />
+          @if (formData[$index]) {
+            <div class="error__container">
+              <p>{{ errorMessage }}</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
+    @if (formUi[0].buttonForgot) {
+      <button class="btn-forgot">Olvidaste tu contraseña?</button>
+    }
+    <button class="btn__submit" type="submit" [title]="formUi[0].buttonSubmit" (click)="onSubmit()">Submit</button>
+  </form>
+  <div class="splitter">
+    <hr />
+  </div>
+  <div class="form">
+    <button class="btn__social-form" (click)="signInWithFacebook()">
+      <img src="/assets/icons/facebook.svg" alt="" />
+      <div>
+        <span> Facebook </span>
+      </div>
+    </button>
+    <button class="btn__social-form" (click)="signInWithGoogle()">
+      <img src="/assets/icons/google.svg" alt="" />
+      <div>
+        <span> Google </span>
+      </div>
+    </button>
+  </div>
+  <div class="switch">
+    <span>¿Aún no tienes una cuenta? <a routerLink="/auth/register">¡Registrate ahora!</a></span>
+  </div>
+</div>
+
+<!--
+  <form class="form" [formGroup]="form">
+    <div class="container">
+      <div class="form__group">
+        @for (item of formData; track $index) {
+          <div class="input__wrapper">
+            <input
+              class="input"
+
+              [name]="formData[$index].name"
+              [placeholder]="formData[$index].placeholder"
+              [formControlName]="formData[$index].controlName"
+              [autocomplete]="formData[$index].autocomplete"
+              [autofocus]="formData[0].focus"
+            />
+            <label class="input__label-form" [for]="formData[$index].name">{{ formData[$index].name }}</label>
+            @if (formData[$index].showBtn) {
+              <span class="input__icon-password" (click)="showPasswordToggle = !showPasswordToggle">
+                @if (showPasswordToggle) {
+                  <fa-icon [icon]="faEye"></fa-icon>
+                } @else {
+                  <fa-icon [icon]="faEyeSlash"></fa-icon>
+                }
+              </span>
+            }
+          </div>
+        }
+        <button class="btn__submit" type="submit" [title]="formUi[0].buttonSubmit" (click)="onSubmit()">
+          {{ formUi[0].buttonSubmit }}
+        </button>
+      </div>
+
+      <hr />
+    </div>
+  </form> -->

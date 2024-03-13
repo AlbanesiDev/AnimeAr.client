@@ -1,6 +1,8 @@
 export interface UserInterface {
   id?: string;
-  email: any;
+  username: string;
+  email: string;
+  password: string;
   displayName?: string;
   photoURL?: string;
   teamIds?: string[];

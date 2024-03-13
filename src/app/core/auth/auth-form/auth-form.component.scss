@@ -1,0 +1,68 @@
+@import "../../../../styles/abstract/_mixins.scss";
+
+.form__wrapper {
+  @include absolute(50%, 50%);
+  @include flex(column, nowrap, flex-start);
+  transform: translate(-50%, calc(-50% + 30px));
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(3rem);
+  width: 100%;
+  max-width: 550px;
+  border-radius: 1rem;
+  padding: 3rem 2rem;
+  h1 {
+    @include font($font-size-lg $font-weight-400);
+  }
+  .form {
+    @include flex(column, nowrap, flex-start, stretch, $gap-md);
+    width: 100%;
+    height: 100%;
+    padding-block: 2rem;
+  }
+
+  .form__input-container {
+    @include flex(column, nowrap, space-evenly, flex-start, $gap-sm);
+    position: relative;
+    height: 100px;
+  }
+  .mb-2 {
+    margin-bottom: $margin-md;
+  }
+
+  .btn-forgot {
+    background-color: darkcyan;
+    align-self: flex-end;
+  }
+  .btn-submit {
+    background-color: rgba(255, 0, 255, 0.597);
+    height: 45px;
+  }
+
+  .splitter {
+    width: 100%;
+    padding-inline: $padding-xl;
+  }
+}
+
+.btn__submit {
+  @include flex;
+  @include font($font-size-base $font-weight-400);
+  width: 100%;
+  height: 50px;
+  user-select: none;
+  background-color: $color-primary;
+  border: $border-main;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  &:hover {
+    background-color: $color-secondary;
+  }
+}
+
+.password__icon {
+  @include absolute(50%, 50%);
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+}

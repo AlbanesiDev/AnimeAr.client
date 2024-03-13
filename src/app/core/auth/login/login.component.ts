@@ -1,10 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from "@angular/core";
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from "@angular/forms";
-import { AuthService } from "../../../core/services/auth.service";
+import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
-import { AuthFormComponent } from "../../components/auth-form/auth-form.component";
-import { FormDataInterface, FormUiInterface } from "../../models/form.interface";
+import { AuthFormComponent } from "../auth-form/auth-form.component";
+import { FormDataInterface, FormUiInterface } from "../../interfaces/form.interface";
 import { HttpClient } from "@angular/common/http";
 
 @Component({
@@ -13,7 +13,7 @@ import { HttpClient } from "@angular/common/http";
   imports: [CommonModule, ReactiveFormsModule, AuthFormComponent],
   template: `
     <div class="register">
-      <img src="/assets/background/naruto.jpg" alt="" />
+      <img src="/assets/gif/login-1.gif" alt="" />
       <app-auth-form
         [formUi]="FormUi"
         [formData]="FormData"
@@ -47,8 +47,9 @@ export class LoginComponent {
       autocomplete: "email",
       name: "email",
       type: "email",
-      placeholder: "Email",
+      placeholder: "email@address.com",
       control: new FormControl(""),
+      focus: true,
       controlName: "email",
       validators: [Validators.required, Validators.email],
     },
@@ -56,8 +57,8 @@ export class LoginComponent {
       autocomplete: "current-password",
       name: "password",
       type: "password",
-      placeholder: "Password",
-      showBtn: false,
+      placeholder: "*********",
+      showBtn: true,
       control: new FormControl(""),
       controlName: "password",
       validators: [Validators.required, Validators.minLength(8), Validators.maxLength(30)],
@@ -65,7 +66,7 @@ export class LoginComponent {
   ];
 
   public onSubmit(formValue: any): void {
-    this.authService.loginWithEmail(formValue.email, formValue.password).subscribe({
+    this.authService.loginWithEmail(formValue).subscribe({
       next: () => {
         this.router.navigateByUrl("/");
       },

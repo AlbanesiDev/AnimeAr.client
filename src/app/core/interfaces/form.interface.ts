@@ -17,6 +17,7 @@ export interface FormDataInterface {
   name: string;
   type: string;
   placeholder: string;
+  focus?: boolean;
   control: FormControl;
   controlName: string;
   autocomplete: string;

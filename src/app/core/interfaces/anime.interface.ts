@@ -1,4 +1,4 @@
-export interface Anime {
+export interface AnimeInterface {
   title: string;
   type: Type;
   txtAlt: string[];

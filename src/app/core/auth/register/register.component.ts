@@ -2,11 +2,11 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { AuthService } from "../../../core/services/auth.service";
+import { AuthService } from "../auth.service";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { AuthFormComponent } from "../../components/auth-form/auth-form.component";
-import { FormDataInterface } from "../../models/form.interface";
+import { AuthFormComponent } from "../auth-form/auth-form.component";
+import { FormDataInterface } from "../../interfaces/form.interface";
 
 @Component({
   selector: "app-register",
@@ -14,7 +14,7 @@ import { FormDataInterface } from "../../models/form.interface";
   imports: [CommonModule, FontAwesomeModule, ReactiveFormsModule, AuthFormComponent],
   template: `
     <div class="register">
-      <img src="https://cdn.wallpapersafari.com/82/74/wqM8gj.jpg" alt="" />
+      <img src="/assets/gif/login.gif" alt="" />
       <app-auth-form
         [formUi]="FormUi"
         [formData]="FormData"
@@ -74,7 +74,7 @@ export class RegisterComponent {
   ];
 
   public onSubmit(formValue: any): void {
-    this.authService.registerWithEmail(formValue.username, formValue.email, formValue.password).subscribe({
+    this.authService.registerWithEmail(formValue).subscribe({
       next: () => {
         this.router.navigateByUrl("/");
       },
